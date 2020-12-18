@@ -4,31 +4,32 @@ namespace Stopwatch
 {
     public class Stopwatch
     {
-        public DateTime _startTime;
-        public DateTime _stopTime;
-        public bool isRunning = false;
+        private DateTime _startTime;
+        private DateTime _stopTime;
+        public bool _isRunning;
 
         public void Start()
         {
-            if (!isRunning)
-            {
-                isRunning = true;
-                _startTime = DateTime.Now;
-            }
+            if (_isRunning)
+                throw new InvalidOperationException("Stopwatch already running!");
+
+            _isRunning = true;
+            _startTime = DateTime.Now;
+            
         }
 
         public void Stop()
         {
-            _stopTime = DateTime.Now;
-            isRunning = false;
+            if(!_isRunning)
+                throw new InvalidOperationException("Stopwatch is not running!");
 
+            _stopTime = DateTime.Now;
+            _isRunning = false;
         }
 
         public TimeSpan CalculateTime()
         {
-            var duration = _stopTime - _startTime;
-            return duration;
+            return _stopTime - _startTime;
         }
-
     }
 }
